@@ -1,8 +1,11 @@
 import { CustomError } from "../errors/CustomError";
 import { USER_ROLES } from "../model/User";
+import { IdGenerator } from "../services/idGenerator";
 
 export class UserBusiness {
-  constructor() { }
+  constructor(
+    private idGenerator: IdGenerator
+  ) { }
   public async signup(
     name: string,
     email: string,
@@ -19,6 +22,7 @@ export class UserBusiness {
       if (password.length < 6) {
         throw new CustomError(422, "'password must contain at least 6 characters")
       }
+      const id = this.idGenerator.generate()
 
     } catch (error) {
 

@@ -1,7 +1,11 @@
 import { UserBusiness } from "../src/business/UserBusiness";
 import { USER_ROLES } from "../src/model/User";
+import { IdGenerator } from "../src/services/idGenerator";
+import idGeneratorMock, { IdGeneratorMock } from "./mocks/idGeneratorMock";
 
-const userBusiness = new UserBusiness()
+const userBusiness = new UserBusiness(
+  new IdGeneratorMock()
+)
 
 describe("Input Missing create user", () => {
   test("Error when name is blank", async () => {
@@ -100,6 +104,22 @@ describe("Input Missing create user", () => {
     } catch (error) {
       expect(error.statusCode).toBe(422)
       expect(error.message).toBe("Valid roles are 'NORMAL' and 'ADMIN'")
+    }
+  })
+  test("Validade id", async () => {
+    // expect.assertions(2)
+    try {
+      await userBusiness.signup(
+        "felipe",
+        "felipe@gmail.com",
+        "1234567",
+        USER_ROLES.NORMAL
+      )
+      const id = idGeneratorMock.generate()
+      expect(id).toBe("id")
+
+    } catch (error) {
+      
     }
   })
 })
