@@ -1,3 +1,5 @@
+import { CustomError } from "../errors/CustomError"
+
 export class User {
   constructor(
     private id: string,
@@ -30,7 +32,7 @@ export const stringToUserRole = (input: string): USER_ROLES => {
     case "ADMIN":
       return USER_ROLES.ADMIN
     default:
-      throw new Error("Valid Roles are 'NORMAL' and 'ADMIN'")
+      throw new CustomError(422, "Valid roles are 'NORMAL' and 'ADMIN'")
   }
 }
 
