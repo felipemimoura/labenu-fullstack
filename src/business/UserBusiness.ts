@@ -1,4 +1,5 @@
 import { CustomError } from "../errors/CustomError";
+import { USER_ROLES } from "../model/User";
 
 export class UserBusiness {
   constructor() { }
@@ -14,6 +15,9 @@ export class UserBusiness {
       }
       if (email.indexOf("@") === -1) {
         throw new CustomError(422, "Invalid email")
+      }
+      if (password.length < 6) {
+        throw new CustomError(422, "'password must contain at least 6 characters")
       }
 
     } catch (error) {

@@ -74,4 +74,32 @@ describe("Input Missing create user", () => {
       expect(error.message).toBe("Invalid email")
     }
   })
+  test("Error when password  invalid", async () => {
+    // expect.assertions(2)
+    try {
+      await userBusiness.signup(
+        "felipe",
+        "felipe@gmail.com",
+        "12",
+        USER_ROLES.NORMAL
+      )
+    } catch (error) {
+      expect(error.statusCode).toBe(422)
+      expect(error.message).toBe("'password must contain at least 6 characters")
+    }
+  })
+  test("Error when role is invalid", async () => {
+    // expect.assertions(2)
+    try {
+      await userBusiness.signup(
+        "felipe",
+        "felipe@gmail.com",
+        "1234567",
+        "Guest"
+      )
+    } catch (error) {
+      expect(error.statusCode).toBe(422)
+      expect(error.message).toBe("Valid roles are 'NORMAL' and 'ADMIN'")
+    }
+  })
 })
