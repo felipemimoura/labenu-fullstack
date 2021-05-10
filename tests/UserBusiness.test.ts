@@ -52,12 +52,26 @@ describe("Input Missing create user", () => {
       await userBusiness.signup(
         "felipe",
         "felipe@gmail.com",
-        "",
+        "123456",
         ""
       )
     } catch (error) {
       expect(error.statusCode).toBe(422)
       expect(error.message).toBe("Missing Input")
+    }
+  })
+  test("Error when email invalid", async () => {
+    // expect.assertions(2)
+    try {
+      await userBusiness.signup(
+        "felipe",
+        "felipegmail.com",
+        "123456",
+        USER_ROLES.NORMAL
+      )
+    } catch (error) {
+      expect(error.statusCode).toBe(422)
+      expect(error.message).toBe("Invalid email")
     }
   })
 })

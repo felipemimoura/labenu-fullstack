@@ -7,14 +7,17 @@ export class UserBusiness {
     email: string,
     password: string,
     role: string
-  ){
+  ) {
     try {
-      if(!name || !email || !password || !role){
+      if (!name || !email || !password || !role) {
         throw new CustomError(422, "Missing Input")
       }
-      
+      if (email.indexOf("@") === -1) {
+        throw new CustomError(422, "Invalid email")
+      }
+
     } catch (error) {
-      
+
     }
   }
 }
