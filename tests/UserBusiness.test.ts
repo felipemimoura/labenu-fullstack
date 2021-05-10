@@ -1,10 +1,13 @@
 import { UserBusiness } from "../src/business/UserBusiness";
 import { USER_ROLES } from "../src/model/User";
-import { IdGenerator } from "../src/services/idGenerator";
-import idGeneratorMock, { IdGeneratorMock } from "./mocks/idGeneratorMock";
+import hashGenerator, { HashGenerator } from "../src/services/hashGenerator";
+import {IdGeneratorMock} from './mocks/IdGeneratorMock'
+import { HashGeneratorMock } from "./mocks/HashGeneratorMock";
+import idGenerator from "../src/services/idGenerator";
 
 const userBusiness = new UserBusiness(
-  new IdGeneratorMock()
+  new IdGeneratorMock(),
+  new HashGeneratorMock()
 )
 
 describe("Input Missing create user", () => {
@@ -115,11 +118,20 @@ describe("Input Missing create user", () => {
         "1234567",
         USER_ROLES.NORMAL
       )
-      const id = idGeneratorMock.generate()
+      const id = idGenerator.generate()
       expect(id).toBe("id")
 
     } catch (error) {
-      
+
+    }
+  })
+  test("Generate hash password ", async () => {
+    // expect.assertions(2)
+    try {
+      const hash = hashGenerator.createHash("s")
+      expect(hash).toBe("hash")
+    } catch (error) {
+
     }
   })
 })

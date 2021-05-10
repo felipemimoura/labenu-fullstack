@@ -1,10 +1,12 @@
 import { CustomError } from "../errors/CustomError";
 import { USER_ROLES } from "../model/User";
+import { HashGenerator } from "../services/hashGenerator";
 import { IdGenerator } from "../services/idGenerator";
 
 export class UserBusiness {
   constructor(
-    private idGenerator: IdGenerator
+    private idGenerator: IdGenerator,
+    private hashGenerator: HashGenerator
   ) { }
   public async signup(
     name: string,
