@@ -75,6 +75,12 @@ export class UserBusiness {
       if (!isPasswordCorrect) {
         throw new CustomError(401, "Invalid Credentials")
       }
+      const accessToken = this.tokenGenerator.generate({
+        id: user.getId(),
+        role: user.getRole()
+      })
+
+      return {accessToken}
     } catch (error) {
       throw new CustomError(error.statusCode, error.message)
     }

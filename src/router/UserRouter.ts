@@ -4,4 +4,4 @@ import userController from '../controller/UserController'
 export const userRouter = express.Router()
 
 userRouter.post("/singup", userController.singup)
-userRouter.post('/')
+userRouter.post('/', userController.login)

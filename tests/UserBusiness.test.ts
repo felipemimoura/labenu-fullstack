@@ -234,4 +234,17 @@ describe('Login', () => {
       expect(error.message).toBe("Invalid Credentials")
     }
   })
+  test("Sucess", async () => {
+    expect.assertions(1)
+    try {
+      const { accessToken } = await userBusiness.login(
+        "normal@gmail.com",
+        "normalpassword"
+      )
+      expect(accessToken).toBe("token")
+    } catch (error) {
+
+
+    }
+  })
 })
