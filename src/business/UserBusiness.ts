@@ -57,6 +57,9 @@ export class UserBusiness {
     if (!email || !password) {
       throw new CustomError(422, "Missing Input")
     }
+    if (email.indexOf("@") === -1) {
+      throw new CustomError(422, "Invalid email")
+    }
   }
 }
 
