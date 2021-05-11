@@ -1,7 +1,7 @@
 import { UserDataBase } from "../data/UserDatabase";
 import { CustomError } from "../errors/CustomError";
 import { stringToUserRole, User, USER_ROLES } from "../model/User";
-import { HashGenerator } from "../services/hashGenerator";
+import hashGenerator, { HashGenerator } from "../services/hashGenerator";
 import { IdGenerator } from "../services/idGenerator";
 import { TokenGenerator } from "../services/tokenGenerator";
 
@@ -16,11 +16,12 @@ export class UserBusiness {
     name: string,
     email: string,
     password: string,
+    nickname: string,
     role: string = USER_ROLES.NORMAL
   ) {
     try {
 
-      if (!name || !email || !password || !role) {
+      if (!name || !email || !password || !role || !nickname) {
         throw new CustomError(422, "Missing Input")
       }
       if (email.indexOf("@") === -1) {
@@ -33,7 +34,7 @@ export class UserBusiness {
       const cypherPassword = await this.hashGenerator.createHash(password)
 
       await this.userDatabase.createUser(
-        new User(id, name, email, cypherPassword, stringToUserRole(role))
+        new User(id, name, email, nickname, cypherPassword, stringToUserRole(role))
       )
 
       const accessToken = this.tokenGenerator.generate({
@@ -52,3 +53,10 @@ export class UserBusiness {
 
   }
 }
+
+export default new UserBusiness(
+  new IdGenerator(),
+  new HashGenerator(),
+  new UserDataBase(),
+  new TokenGenerator()
+)

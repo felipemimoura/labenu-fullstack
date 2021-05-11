@@ -5,6 +5,7 @@ export class User {
     private id: string,
     private name: string,
     private email: string,
+    private nickname: string,
     private password: string,
     private role: USER_ROLES
   ) { }
@@ -16,6 +17,9 @@ export class User {
   }
   public getEmail(): string {
     return this.email
+  }
+  public getNickname(): string {
+    return this.nickname
   }
   public getPassword(): string {
     return this.password
