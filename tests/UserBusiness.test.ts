@@ -2,7 +2,7 @@ import { UserBusiness } from "../src/business/UserBusiness";
 import { USER_ROLES } from "../src/model/User";
 import hashGenerator from "../src/services/hashGenerator";
 import idGeneratorMock from './mocks/IdGeneratorMock'
-import { HashGeneratorMock } from "./mocks/HashGeneratorMock";
+import HashGeneratorMock from "./mocks/HashGeneratorMock";
 import userDataBaseMock from "./mocks/userDataBaseMock";
 import { UserDataBase } from '../src/data/UserDatabase'
 import ConnectionDataBase from "../src/data/ConnectionDataBase";
@@ -11,7 +11,7 @@ import tokenGeneratorMock from "./mocks/tokenGeneratorMock";
 
 const userBusiness = new UserBusiness(
   idGeneratorMock,
-  new HashGeneratorMock(),
+  HashGeneratorMock,
   userDataBaseMock as UserDataBase,
   tokenGeneratorMock
 )
@@ -136,7 +136,7 @@ describe("Sign up", () => {
   test("Generate hash password ", async () => {
     // expect.assertions(2)
     try {
-      const hash = hashGenerator.createHash("s")
+      const hash = HashGeneratorMock.createHash("s")
       expect(hash).toBe("hash")
     } catch (error) {
 
@@ -201,11 +201,37 @@ describe('Login', () => {
     try {
       await userBusiness.login(
         "felipegmail.com",
-        "123456"
+        "123456",
       )
     } catch (error) {
       expect(error.statusCode).toBe(422)
       expect(error.message).toBe("Invalid email")
+    }
+  })
+  test("Error when email invalid", async () => {
+    expect.assertions(2)
+    try {
+      await userBusiness.login(
+        "felipe1@gmail.com",
+        "123456"
+      )
+    } catch (error) {
+
+      expect(error.statusCode).toBe(401)
+      expect(error.message).toBe("Invalid Credentials")
+    }
+  })
+  test("Error when password invalid", async () => {
+    expect.assertions(2)
+    try {
+      await userBusiness.login(
+        "normal@gmail.com",
+        "123456"
+      )
+    } catch (error) {
+
+      expect(error.statusCode).toBe(401)
+      expect(error.message).toBe("Invalid Credentials")
     }
   })
 })

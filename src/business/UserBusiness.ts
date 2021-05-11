@@ -54,11 +54,29 @@ export class UserBusiness {
     email: string,
     password: string
   ) {
-    if (!email || !password) {
-      throw new CustomError(422, "Missing Input")
-    }
-    if (email.indexOf("@") === -1) {
-      throw new CustomError(422, "Invalid email")
+    try {
+
+      if (!email || !password) {
+        throw new CustomError(422, "Missing Input")
+      }
+      if (email.indexOf("@") === -1) {
+        throw new CustomError(422, "Invalid email")
+      }
+      const user = await this.userDatabase.getUserByEmail(email)
+
+      if (!user) {
+        throw new CustomError(401, "Invalid Credentials")
+      }
+
+      const isPasswordCorrect = await this.hashGenerator.compareHash(
+        password,
+        user.getPassword()
+      )
+      if (!isPasswordCorrect) {
+        throw new CustomError(401, "Invalid Credentials")
+      }
+    } catch (error) {
+      throw new CustomError(error.statusCode, error.message)
     }
   }
 }
