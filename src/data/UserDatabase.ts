@@ -20,5 +20,15 @@ export class UserDataBase extends ConnectionDataBase {
       throw new Error(error.sqlMessage || error.message)
     }
   }
+  public async getUserByEmail(email: string): Promise<User | undefined> {
+    try {
+      const result = await ConnectionDataBase.connection.raw(`
+        SELECT * FROM ${this.tableName} WHERE email = '${email}
+      `)
+      return this.toModel(result[0][0])
+    } catch (error) {
+
+    }
+  }
 
 }
