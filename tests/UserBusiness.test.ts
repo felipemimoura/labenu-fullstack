@@ -170,18 +170,31 @@ describe("Sign up", () => {
   })
 })
 
-// describe('Login', () => {
-//   test('Error when email is blank', async () => {
-//     expect.assertions(2)
-//     try {
-//       await userBusiness.login(
-//         "",
-//         "123456"
-//       )
-//     } catch (error) {
-//       expect(error.statusCode).toBe(422)
-//       expect(error.message).toBe('Missing Input')
-//     }
+describe('Login', () => {
+  test('Error when email is blank', async () => {
+    expect.assertions(2)
+    try {
+      await userBusiness.login(
+        "",
+        "123456"
+      )
+    } catch (error) {
+      expect(error.statusCode).toBe(422)
+      expect(error.message).toBe('Missing Input')
+    }
 
-//   })
-// })
+  })
+  test('Error when password is blank', async () => {
+    expect.assertions(2)
+    try {
+      await userBusiness.login(
+        "felipe@gmail.com",
+        ""
+      )
+    } catch (error) {
+      expect(error.statusCode).toBe(422)
+      expect(error.message).toBe('Missing Input')
+    }
+
+  })
+})
