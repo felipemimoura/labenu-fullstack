@@ -1,18 +1,23 @@
 import { UserBusiness } from "../src/business/UserBusiness";
 import { USER_ROLES } from "../src/model/User";
-import hashGenerator, { HashGenerator } from "../src/services/hashGenerator";
-import {IdGeneratorMock} from './mocks/IdGeneratorMock'
+import hashGenerator from "../src/services/hashGenerator";
+import idGeneratorMock from './mocks/IdGeneratorMock'
 import { HashGeneratorMock } from "./mocks/HashGeneratorMock";
-import idGenerator from "../src/services/idGenerator";
+import userDataBaseMock from "./mocks/userDataBaseMock";
+import { UserDataBase } from '../src/data/UserDatabase'
+import ConnectionDataBase from "../src/data/ConnectionDataBase";
+// import idGenerator from "../src/services/idGenerator";
 
 const userBusiness = new UserBusiness(
-  new IdGeneratorMock(),
-  new HashGeneratorMock()
+  idGeneratorMock,
+  new HashGeneratorMock(),
+  userDataBaseMock as UserDataBase
+
 )
 
 describe("Input Missing create user", () => {
   test("Error when name is blank", async () => {
-    // expect.assertions(2)
+    expect.assertions(2)
     try {
       await userBusiness.signup(
         "",
@@ -26,7 +31,7 @@ describe("Input Missing create user", () => {
     }
   })
   test("Error when email is blank", async () => {
-    // expect.assertions(2)
+    expect.assertions(2)
     try {
       await userBusiness.signup(
         "felipe",
@@ -40,7 +45,7 @@ describe("Input Missing create user", () => {
     }
   })
   test("Error when password is blank", async () => {
-    // expect.assertions(2)
+    expect.assertions(2)
     try {
       await userBusiness.signup(
         "felipe",
@@ -54,7 +59,7 @@ describe("Input Missing create user", () => {
     }
   })
   test("Error when roles is blank", async () => {
-    // expect.assertions(2)
+    expect.assertions(2)
     try {
       await userBusiness.signup(
         "felipe",
@@ -68,7 +73,7 @@ describe("Input Missing create user", () => {
     }
   })
   test("Error when email invalid", async () => {
-    // expect.assertions(2)
+    expect.assertions(2)
     try {
       await userBusiness.signup(
         "felipe",
@@ -82,7 +87,7 @@ describe("Input Missing create user", () => {
     }
   })
   test("Error when password  invalid", async () => {
-    // expect.assertions(2)
+    expect.assertions(2)
     try {
       await userBusiness.signup(
         "felipe",
@@ -96,7 +101,7 @@ describe("Input Missing create user", () => {
     }
   })
   test("Error when role is invalid", async () => {
-    // expect.assertions(2)
+    expect.assertions(2)
     try {
       await userBusiness.signup(
         "felipe",
@@ -118,7 +123,7 @@ describe("Input Missing create user", () => {
         "1234567",
         USER_ROLES.NORMAL
       )
-      const id = idGenerator.generate()
+      const id = idGeneratorMock.generate()
       expect(id).toBe("id")
 
     } catch (error) {
@@ -132,6 +137,17 @@ describe("Input Missing create user", () => {
       expect(hash).toBe("hash")
     } catch (error) {
 
+    }
+  })
+  test("Connection database ", async () => {
+    // expect.assertions(2)
+    try {
+      const result = await ConnectionDataBase.test()
+      expect(result[0][0]['1+1']).toBe(2)
+    } catch (error) {
+
+    } finally {
+      await ConnectionDataBase.destroy()
     }
   })
 })
