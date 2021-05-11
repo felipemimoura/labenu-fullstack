@@ -14,10 +14,9 @@ const userBusiness = new UserBusiness(
   new HashGeneratorMock(),
   userDataBaseMock as UserDataBase,
   tokenGeneratorMock
-
 )
 
-describe("Input Missing create user", () => {
+describe("Sign up", () => {
   test("Error when name is blank", async () => {
     expect.assertions(2)
     try {
@@ -88,18 +87,19 @@ describe("Input Missing create user", () => {
       expect(error.message).toBe("Invalid email")
     }
   })
-  test("Error when password  invalid", async () => {
+  test("Error when password invalid", async () => {
     expect.assertions(2)
     try {
       await userBusiness.signup(
         "felipe",
         "felipe@gmail.com",
+        "felipemimoura",
         "12",
         USER_ROLES.NORMAL
       )
     } catch (error) {
       expect(error.statusCode).toBe(422)
-      expect(error.message).toBe("'password must contain at least 6 characters")
+      expect(error.message).toBe("'password must contain at least 6 characters'")
     }
   })
   test("Error when role is invalid", async () => {
@@ -108,6 +108,7 @@ describe("Input Missing create user", () => {
       await userBusiness.signup(
         "felipe",
         "felipe@gmail.com",
+        "felipemimoura",
         "1234567",
         "Guest"
       )
@@ -142,7 +143,7 @@ describe("Input Missing create user", () => {
     }
   })
   test("Connection database ", async () => {
-    // expect.assertions(2)
+    expect.assertions(1)
     try {
       const result = await ConnectionDataBase.test()
       expect(result[0][0]['1+1']).toBe(2)
@@ -158,6 +159,7 @@ describe("Input Missing create user", () => {
       const { accessToken } = await userBusiness.signup(
         "nome",
         "felipe@teste.com",
+        "felipemimoura",
         "1234567",
         "ADMIN"
       )
@@ -167,3 +169,19 @@ describe("Input Missing create user", () => {
     }
   })
 })
+
+// describe('Login', () => {
+//   test('Error when email is blank', async () => {
+//     expect.assertions(2)
+//     try {
+//       await userBusiness.login(
+//         "",
+//         "123456"
+//       )
+//     } catch (error) {
+//       expect(error.statusCode).toBe(422)
+//       expect(error.message).toBe('Missing Input')
+//     }
+
+//   })
+// })

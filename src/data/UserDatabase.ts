@@ -6,7 +6,7 @@ export class UserDataBase extends ConnectionDataBase {
   public async createUser(user: User): Promise<void> {
     try {
       await ConnectionDataBase.connection.raw(`
-      INSERT INTO ${this.tableName}(id, name, email,nickname, password, role)
+      INSERT INTO ${this.tableName}(id, name, email, nickname, password, role)
       VALUES(
         '${user.getId()}',
         '${user.getName()}',

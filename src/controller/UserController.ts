@@ -20,6 +20,15 @@ export class UserController {
       res.status(statusCode || 400).send({ message })
     }
   }
+
+  public async login(req: Request, res: Response){
+    try {
+      const {email , password} = req.body
+      const result = await userBusiness
+    } catch (error) {
+      
+    }
+  }
 }
 
 export default new UserController()

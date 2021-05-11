@@ -15,8 +15,8 @@ export class UserBusiness {
   public async signup(
     name: string,
     email: string,
-    password: string,
     nickname: string,
+    password: string,
     role: string = USER_ROLES.NORMAL
   ) {
     try {
@@ -28,7 +28,7 @@ export class UserBusiness {
         throw new CustomError(422, "Invalid email")
       }
       if (password.length < 6) {
-        throw new CustomError(422, "'password must contain at least 6 characters")
+        throw new CustomError(422, "'password must contain at least 6 characters'")
       }
       const id = this.idGenerator.generate()
       const cypherPassword = await this.hashGenerator.createHash(password)
@@ -49,8 +49,14 @@ export class UserBusiness {
       }
       throw new CustomError(error.statusCode, error.message)
     }
-
-
+  }
+  public async login(
+    email: string,
+    password: string
+  ) {
+    if (!email || !password) {
+      throw new CustomError(422, "Missing Input")
+    }
   }
 }
 
