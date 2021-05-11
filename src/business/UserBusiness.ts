@@ -3,12 +3,14 @@ import { CustomError } from "../errors/CustomError";
 import { stringToUserRole, User, USER_ROLES } from "../model/User";
 import { HashGenerator } from "../services/hashGenerator";
 import { IdGenerator } from "../services/idGenerator";
+import { TokenGenerator } from "../services/tokenGenerator";
 
 export class UserBusiness {
   constructor(
     private idGenerator: IdGenerator,
     private hashGenerator: HashGenerator,
-    private userDatabase: UserDataBase
+    private userDatabase: UserDataBase,
+    private tokenGenerator: TokenGenerator
   ) { }
   public async signup(
     name: string,
@@ -16,7 +18,8 @@ export class UserBusiness {
     password: string,
     role: string = USER_ROLES.NORMAL
   ) {
-     
+    try {
+
       if (!name || !email || !password || !role) {
         throw new CustomError(422, "Missing Input")
       }
@@ -33,6 +36,18 @@ export class UserBusiness {
         new User(id, name, email, cypherPassword, stringToUserRole(role))
       )
 
+      const accessToken = this.tokenGenerator.generate({
+        id,
+        role
+      })
+
+      return { accessToken }
+    } catch (error) {
+      if (error.message.includes("key 'email")) {
+        throw new CustomError(409, "Email Already in use")
+      }
+      throw new CustomError(error.statusCode, error.message)
+    }
 
 
   }

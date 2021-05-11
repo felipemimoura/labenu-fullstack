@@ -6,12 +6,14 @@ import { HashGeneratorMock } from "./mocks/HashGeneratorMock";
 import userDataBaseMock from "./mocks/userDataBaseMock";
 import { UserDataBase } from '../src/data/UserDatabase'
 import ConnectionDataBase from "../src/data/ConnectionDataBase";
+import tokenGeneratorMock from "./mocks/tokenGeneratorMock";
 // import idGenerator from "../src/services/idGenerator";
 
 const userBusiness = new UserBusiness(
   idGeneratorMock,
   new HashGeneratorMock(),
-  userDataBaseMock as UserDataBase
+  userDataBaseMock as UserDataBase,
+  tokenGeneratorMock
 
 )
 
@@ -148,6 +150,20 @@ describe("Input Missing create user", () => {
 
     } finally {
       await ConnectionDataBase.destroy()
+    }
+  })
+  test("Success", async () => {
+    expect.assertions(1)
+    try {
+      const { accessToken } = await userBusiness.signup(
+        "nome",
+        "felipe@teste.com",
+        "1234567",
+        "ADMIN"
+      )
+      expect(accessToken).toBe("token")
+    } catch (error) {
+
     }
   })
 })
