@@ -15,4 +15,10 @@ export default class ConnectionDataBase {
       multipleStatements: true
     }
   })
+
+  static test = async () => ConnectionDataBase.connection.raw(`
+    SELECT 1 + 1
+  `)
+
+  static destroy = async () => ConnectionDataBase.connection.destroy()
 }
