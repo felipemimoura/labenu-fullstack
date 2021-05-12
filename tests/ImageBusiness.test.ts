@@ -59,4 +59,18 @@ describe("Upload", () => {
       expect(error.message).toBe("Missing Input")
     }
   })
+  test("Error When file is not imagem", async () => {
+    expect.assertions(2)
+    try {
+      await imageBusiness.upload(
+        "Foto da montanha",
+        "Felipe",
+        "2020-05-12",
+        "www.google.com"
+      )
+    } catch (error) {
+      expect(error.statusCode).toBe(422)
+      expect(error.message).toBe("Check image url")
+    }
+  })
 })

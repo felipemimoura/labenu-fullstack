@@ -11,6 +11,9 @@ export class ImageBusiness {
       if (!subtitle || !author || !date || !file) {
         throw new CustomError(422, "Missing Input")
       }
+      if (file.indexOf("http") === -1) {
+        throw new CustomError(422, "Check image url")
+      }
 
     } catch (error) {
       throw new CustomError(error.statusCode, error.message)
