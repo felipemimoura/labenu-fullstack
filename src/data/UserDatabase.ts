@@ -28,7 +28,6 @@ export class UserDataBase extends ConnectionDataBase {
         '${user.getRole()}'
       )` )
     } catch (error) {
-      console.log(error)
       throw new Error(error.sqlMessage || error.message)
     }
   }
