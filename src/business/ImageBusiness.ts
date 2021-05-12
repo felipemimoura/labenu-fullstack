@@ -1,6 +1,11 @@
 import { CustomError } from "../errors/CustomError";
+import { IdGenerator } from "../services/idGenerator";
 
 export class ImageBusiness {
+  constructor(
+    private idGenerator: IdGenerator
+  ) { }
+
   public async upload(
     subtitle: string,
     author: string,
@@ -14,6 +19,8 @@ export class ImageBusiness {
       if (file.indexOf("http") === -1) {
         throw new CustomError(422, "Check image url")
       }
+      const id = this.idGenerator.generate()
+
 
     } catch (error) {
       throw new CustomError(error.statusCode, error.message)
@@ -21,4 +28,6 @@ export class ImageBusiness {
   }
 }
 
-export default new ImageBusiness()
+export default new ImageBusiness(
+  new IdGenerator()
+)
