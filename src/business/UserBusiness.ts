@@ -6,7 +6,7 @@ import { IdGenerator } from "../services/idGenerator";
 import { TokenGenerator } from "../services/tokenGenerator";
 
 export class UserBusiness {
-  constructor(
+    constructor(
     private idGenerator: IdGenerator,
     private hashGenerator: HashGenerator,
     private userDatabase: UserDataBase,
