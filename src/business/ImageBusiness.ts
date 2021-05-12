@@ -26,7 +26,6 @@ export class ImageBusiness {
       await this.imageDatabase.uploadImage(
         new Image(id, subtitle, author, date, file)
       )
-
       return { image: 'Created' }
     } catch (error) {
       throw new CustomError(error.statusCode, error.message)

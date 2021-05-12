@@ -7,7 +7,7 @@ export class ImageDatabase extends ConnectionDataBase {
   public async uploadImage(image: Image): Promise<void> {
     try {
       await ConnectionDataBase.connection.raw(`
-        INSERT INTO ${this.tableName}'(id, subtitle, author, date, file)
+        INSERT INTO ${this.tableName}(id, subtitle, author, date, file)
         VALUES(
           '${image.getId()}',
           '${image.getSubtitle()}',

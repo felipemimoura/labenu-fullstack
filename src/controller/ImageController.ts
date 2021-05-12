@@ -11,9 +11,12 @@ export class ImageController {
         date,
         file
       )
+      res.status(200).send(result)
     } catch (error) {
       const { statusCode, message } = error
       res.status(statusCode || 400).send({ message })
     }
   }
 }
+
+export default new ImageController()
