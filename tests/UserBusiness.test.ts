@@ -1,13 +1,12 @@
 import { UserBusiness } from "../src/business/UserBusiness";
 import { USER_ROLES } from "../src/model/User";
-import hashGenerator from "../src/services/hashGenerator";
 import idGeneratorMock from './mocks/IdGeneratorMock'
 import HashGeneratorMock from "./mocks/HashGeneratorMock";
 import userDataBaseMock from "./mocks/userDataBaseMock";
 import { UserDataBase } from '../src/data/UserDatabase'
 import ConnectionDataBase from "../src/data/ConnectionDataBase";
 import tokenGeneratorMock from "./mocks/tokenGeneratorMock";
-// import idGenerator from "../src/services/idGenerator";
+
 
 const userBusiness = new UserBusiness(
   idGeneratorMock,

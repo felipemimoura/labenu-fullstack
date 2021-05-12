@@ -1,6 +1,13 @@
 import { ImageBusiness } from "../src/business/ImageBusiness";
+import { ImageDatabase } from "../src/data/ImageDatabase";
+import idGeneratorMock from "./mocks/IdGeneratorMock";
+import imageDatabaseMock from "./mocks/imageDataBaseMock"
 
-const imageBusiness = new ImageBusiness()
+const imageBusiness = new ImageBusiness(
+  idGeneratorMock,
+  imageDatabaseMock as ImageDatabase
+
+)
 
 describe("Upload", () => {
   test("Error When subtitle is blank", async () => {
@@ -71,6 +78,21 @@ describe("Upload", () => {
     } catch (error) {
       expect(error.statusCode).toBe(422)
       expect(error.message).toBe("Check image url")
+    }
+  })
+  test("Success", async () => {
+    expect.assertions(1)
+    try {
+      const { image } = await imageBusiness.upload(
+        "Foto da montanha",
+        "Felipe",
+        "2020-05-12",
+        "http://www.google.com"
+      )
+      expect(image).toBe("Created")
+
+    } catch (error) {
+
     }
   })
 })

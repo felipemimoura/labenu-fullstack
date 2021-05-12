@@ -1,9 +1,12 @@
+import { ImageDatabase } from "../data/ImageDatabase";
 import { CustomError } from "../errors/CustomError";
+import { Image } from "../model/Image";
 import { IdGenerator } from "../services/idGenerator";
 
 export class ImageBusiness {
   constructor(
-    private idGenerator: IdGenerator
+    private idGenerator: IdGenerator,
+    private imageDatabase: ImageDatabase
   ) { }
 
   public async upload(
@@ -20,8 +23,11 @@ export class ImageBusiness {
         throw new CustomError(422, "Check image url")
       }
       const id = this.idGenerator.generate()
+      await this.imageDatabase.uploadImage(
+        new Image(id, subtitle, author, date, file)
+      )
 
-
+      return { image: 'Created' }
     } catch (error) {
       throw new CustomError(error.statusCode, error.message)
     }
@@ -29,5 +35,6 @@ export class ImageBusiness {
 }
 
 export default new ImageBusiness(
-  new IdGenerator()
+  new IdGenerator(),
+  new ImageDatabase()
 )
